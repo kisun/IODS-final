@@ -10,10 +10,8 @@ navbar:
     href: learning_diary.html
   - text: About me
     href: aboutme.html
-output_dir: _site
 output:
   html_document:
-    keep_md: yes
     toc: yes
     toc_depth: 2
     theme: yeti
