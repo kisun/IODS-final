@@ -1,0 +1,23 @@
+name: my-website
+navbar:
+  title: Introduction to Open Data Science
+  left:
+  - text: IODS Final Project
+    href: index.html
+  - text: Data-Wrangling R Scripts
+    href: data_wrangling.html
+  - text: IODS Learning Diary
+    href: learning_diary.html
+  - text: About me
+    href: aboutme.html
+output_dir: _site
+output:
+  html_document:
+    keep_md: yes
+    toc: yes
+    toc_depth: 2
+    theme: yeti
+    highlight: kate
+    lib_dir: site_libs
+    self_contained: no
+
