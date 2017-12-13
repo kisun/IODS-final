@@ -2,9 +2,7 @@
 title: "IODS Final Project"
 author: "Kisun Pokharel"
 date: "December 13, 2017"
-email: "kisun.pokharel@helsinki.fi"
-
-
+email: kisun.pokharel@helsinki.fi
 ---
 
 #Introduction  
