@@ -9,7 +9,7 @@ navbar:
   - text: IODS Learning Diary
     href: learning_diary.html
   - text: About me
-    href: aboutme.html
+    href: about.html
 output:
   html_document:
     toc: yes
@@ -18,4 +18,5 @@ output:
     highlight: kate
     lib_dir: site_libs
     self_contained: no
+output_dir: _site
 
