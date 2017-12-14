@@ -1,13 +1,16 @@
 name: my-website
 navbar:
-  title: Introduction to Open Data Science
   left:
   - text: IODS Final Project
     href: index.html
-  - text: Data-Wrangling R Scripts
-    href: data_wrangling.html
-  - text: IODS Learning Diary
-    href: learning_diary.html
+  - text: IODS
+    menu:
+    - text: Course Information
+      href: https://wiki.helsinki.fi/display/SocStats/Introduction+to+Open+Data+Science%2C+spring+2017
+    - text: '---------'
+    - text: My Learning Diary
+      href: https://kisun.github.io/IODS-project/
+  right:
   - text: About me
     href: about.html
 output:
@@ -16,6 +19,10 @@ output:
     toc_depth: 2
     theme: yeti
     highlight: kate
+    include:
+      after_body: footer.html
+    css: style.css
     lib_dir: site_libs
     self_contained: no
-output_dir: "."
+output_dir: .
+

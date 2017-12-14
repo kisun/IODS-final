@@ -99,6 +99,7 @@ h6 {
 }
 </style>
 
+<link rel="stylesheet" href="style.css" type="text/css" />
 
 </head>
 
@@ -204,25 +205,34 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">Introduction to Open Data Science</a>
+      <a class="navbar-brand" href="index.html"></a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
   <a href="index.html">IODS Final Project</a>
 </li>
-<li>
-  <a href="data_wrangling.html">Data-Wrangling R Scripts</a>
-</li>
-<li>
-  <a href="learning_diary.html">IODS Learning Diary</a>
-</li>
-<li>
-  <a href="about.html">About me</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    IODS
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://wiki.helsinki.fi/display/SocStats/Introduction+to+Open+Data+Science%2C+spring+2017">Course Information</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="https://kisun.github.io/IODS-project/">My Learning Diary</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="about.html">About me</a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -287,6 +297,7 @@ $(document).ready(function () {
 ## [13] digest_0.6.12   evaluate_0.10.1</code></pre>
 </div>
 
+<p>Copyright &copy; 2017 Kisun Pokharel </p>
 
 
 
