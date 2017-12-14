@@ -18,10 +18,9 @@ output:
     toc_float: yes
     theme: yeti
     highlight: kate
-    include:
-      after_body: footer.html
     css: style.css
     lib_dir: site_libs
     self_contained: no
-output_dir: .
+output_dir: "."
 name: IODS-final
+
