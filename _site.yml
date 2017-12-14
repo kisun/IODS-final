@@ -1,4 +1,3 @@
-name: my-website
 navbar:
   left:
   - text: IODS Final Project
@@ -16,7 +15,8 @@ navbar:
 output:
   html_document:
     toc: yes
-    toc_depth: 2
+    toc_depth: 3
+    toc_float: true
     theme: yeti
     highlight: kate
     include:
@@ -25,4 +25,5 @@ output:
     lib_dir: site_libs
     self_contained: no
 output_dir: .
+name: IODS-final
 
