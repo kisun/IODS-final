@@ -1,4 +1,6 @@
-
+blockquote {
+font-style: italic
+}
 body {
   font-family: Calibri, helvetica, sans-serif;
 }
@@ -25,4 +27,14 @@ h3 {
 h4 {
   font-size: 100%;
   font-weight: bold;
+  font-style: italic;
+}
+
+.watermark {
+  opacity: 0.2;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  font-size: 500%;
+  color: #00407d;
 }
