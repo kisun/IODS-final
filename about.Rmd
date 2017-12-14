@@ -1,6 +1,8 @@
 ---
 title: "About Me"
 ---
+
+
 I am Kisun Pokharel from Nepal. I came to Finland during 2009 to study Masters in Bioinformatics at Unviersity of Turku. Currently, I am working as a Researcher in Natural Resources Institue of Finland. I am also a PhD student of Genetics at University of Helsinki.
 
 You can contact me via following links:
@@ -8,5 +10,3 @@ You can contact me via following links:
 [Linkedin](https://www.linkedin.com/in/kisun/)  
 
 [Twitter](https://twitter.com/kisunpokharel)
-
-[hello](hello.com)
