@@ -6,7 +6,6 @@ navbar:
     menu:
     - text: Course Information
       href: https://wiki.helsinki.fi/display/SocStats/Introduction+to+Open+Data+Science%2C+spring+2017
-    - text: '---------'
     - text: My Learning Diary
       href: https://kisun.github.io/IODS-project/
   right:
@@ -16,7 +15,7 @@ output:
   html_document:
     toc: yes
     toc_depth: 3
-    toc_float: true
+    toc_float: yes
     theme: yeti
     highlight: kate
     include:
@@ -26,4 +25,3 @@ output:
     self_contained: no
 output_dir: .
 name: IODS-final
-

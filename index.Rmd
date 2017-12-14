@@ -9,10 +9,8 @@ author: |
 date: "December 13, 2017"
 email: "kisun.pokharel@helsinki.fi"
 ---  
-  
-    
-    
-#**Abstract**
+
+#Abstract
 
 #Introduction  
 
