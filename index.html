@@ -10,9 +10,9 @@
 
 
 
-<meta name="date" content="2017-12-13" />
+<meta name="date" content="2017-12-18" />
 
-<title>IODS Final Project</title>
+<title>Boston Housing Dataset</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -216,8 +216,8 @@ $(document).ready(function ()  {
       ignoreSelector: ".toc-ignore",
       scrollTo: 0
     };
-    options.showAndHide = true;
-    options.smoothScroll = true;
+    options.showAndHide = false;
+    options.smoothScroll = false;
 
     // tocify
     var toc = $("#TOC").tocify(options).data("toc-tocify");
@@ -279,6 +279,12 @@ div.tocify {
   border-radius: 0px;
 }
 
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
 
 </style>
 
@@ -338,31 +344,45 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore"><strong>IODS Final Project</strong></h1>
-<h4 class="author"><em><div style="white-space: pre-line;">Kisun Pokharel
-<a href="mailto:kisun.pokharel@helsinki.fi">kisun.pokharel@helsinki.fi</a></div></em></h4>
-<h4 class="date"><em>December 13, 2017</em></h4>
+<h1 class="title toc-ignore">Boston Housing Dataset</h1>
+<h4 class="author"><em>Kisun Pokharel</em></h4>
+<address class="author_afil">
+Natural Resources Institute Finland (Luke)<br><a class="author_email" href="mailto:#"><a href="mailto:kisun.pokharel@helsinki.fi">kisun.pokharel@helsinki.fi</a></a>
+</address>
+<h4 class="date"><em>December 18, 2017</em></h4>
 
 </div>
 
 
+<p><br></p>
 <div id="abstract" class="section level1">
 <h1>Abstract</h1>
+<p>Boston dataset was used to perform xxx . The analysis showed that xx xx and xxx.</p>
 </div>
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
-<p>Hello world</p>
+<p>The Boston Housing Dataset contains information related to housing in the area of Boston Mass.</p>
 </div>
 <div id="data-wrangling" class="section level1">
 <h1>Data Wrangling</h1>
+<p>Before proceeding with the statistical analyses, we will first go through some data wrangling steps. In many cases, the available (raw) data may contain noise such as missing values and are usually untidy and poorly formatted. Therefore, the aim of data wrangling step is to convert raw data into clean (analysis ready) data and to make sure that the dataset satisfies the following conditions:</p>
+<ol style="list-style-type: decimal">
+<li>all observations are stored in rows</li>
+<li>all variables are in columns</li>
+<li>all data under study are kept in single dataset</li>
+</ol>
+<p>The R script for data wrangling can be found with <a href="https://github.com/kisun/IODS-final/data/create_boston.R">this link</a>.</p>
 </div>
 <div id="data-analysis" class="section level1">
 <h1>Data Analysis</h1>
-<div id="data-summary" class="section level2">
-<h2>Data Summary</h2>
+<div id="linear-regression" class="section level2">
+<h2>Linear Regression</h2>
 </div>
-<div id="data-interpretation" class="section level2">
-<h2>Data Interpretation</h2>
+<div id="logistic-regression" class="section level2">
+<h2>Logistic Regression</h2>
+</div>
+<div id="pca" class="section level2">
+<h2>PCA</h2>
 </div>
 </div>
 <div id="conclusion" class="section level1">

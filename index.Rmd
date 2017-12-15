@@ -1,27 +1,34 @@
 ---
-title: "**IODS Final Project**"  
-  
-  
-author: | 
-  | Kisun Pokharel  
-  | kisun.pokharel@helsinki.fi  
-  
-date: "December 13, 2017"
-email: "kisun.pokharel@helsinki.fi"
+title: Boston Housing Dataset
+author: 
+  name: Kisun Pokharel
+  affiliation: Natural Resources Institute Finland (Luke)
+  email: kisun.pokharel@helsinki.fi
+date: December 18, 2017
 ---  
 
+<br>
+
 #Abstract
+Boston dataset was used to perform xxx . The analysis showed that xx xx and xxx. 
 
 #Introduction  
-
-Hello world  
+The Boston Housing Dataset contains information related to housing in the area of Boston Mass.
 
 #Data Wrangling  
+Before proceeding with the statistical analyses, we will first go through some data wrangling steps. In many cases, the available (raw) data may contain noise such as missing values and are usually untidy and poorly formatted. Therefore, the aim of data wrangling step is to convert raw data into clean (analysis ready) data and to make sure that the dataset satisfies the following conditions: 
 
+1. all observations are stored in rows
+2. all variables are in columns
+3. all data under study are kept in single dataset
+
+
+The R script for data wrangling can be found with [this link](https://github.com/kisun/IODS-final/data/create_boston.R).
 
 #Data Analysis  
-##Data Summary
-##Data Interpretation
+##Linear Regression
+##Logistic Regression
+##PCA
 
 #Conclusion  
 what is goin on?

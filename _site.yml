@@ -15,12 +15,15 @@ output:
   html_document:
     toc: yes
     toc_depth: 3
-    toc_float: yes
+    number_sections: no
+    toc_float:
+      collapsed: no
+      smooth_scroll: no
     theme: yeti
     highlight: kate
     css: style.css
     lib_dir: site_libs
     self_contained: no
-output_dir: "."
+output_dir: .
 name: IODS-final
 
