@@ -13,11 +13,17 @@ library(MASS)
 data(Boston)
 
 
-#Check the structure of the data as well as it's dimension
+#Check the structure of the data including variable numbers, number of observations and variable's data type.
 str(Boston)
 #The data includes two integer variables and the rest (i.e 12) are numerical variables
+
+#Shortcut for quickly checking the dimension of the dataset
 dim(Boston)
 #The size of the dataset is 506 x 14 i.e there are 506 observations for 14 variables.
+
+#Furthermore, we can only check the variable names using name variable. This would be useful especially when there
+#are many variables.
+names(Boston)
 
 #Let's take a sneak peek of the data
 head(Boston) #the first six observations are shown
