@@ -23,14 +23,23 @@ Before proceeding with the statistical analyses, we will first go through some d
 3. all data under study are kept in single dataset
 
 
-The R script for data wrangling can be found with [this link](https://github.com/kisun/IODS-final/data/create_boston.R).
+The R script for data wrangling can be found with [this link](https://github.com/kisun/IODS-final/blob/master/data/create_boston.R).
+
+#Data Summary  
+
+#Data Exploration
 
 #Data Analysis  
-##Linear Regression
-##Logistic Regression
+
+##Linear Regression  
+
+##Logistic Regression  
+
 ##PCA
 
+
 #Conclusion  
+
 what is goin on?
 
 ##Session information:
