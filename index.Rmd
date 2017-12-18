@@ -163,8 +163,11 @@ plot(lm_crim, which = 2)
 plot(lm_crim, which = 5)
 ```
 
+###Interpretation (model validation)
 
 The three different diagnostic plots are generated above.The assumptions behind all three models is linearity and normality. Based on the above plots, we can conclude that the errors are normally distributed (clearly observed in q-q plot). Similarly, residual versus fitted model showed that the errors are not dependent on the crime variable. Moreover, we can see that even two points (towards the right) have minor influence to the assumption in case of residual vs leverage model. All the models have adressed the outliers nicely. Thus, assumptions in all models are more or less valid.
+
+
 
 #Conclusion  
 To conclude, three of the four variables I selected by assuming that they predict crime rate in Boston were found to be valid. Moreover, it was found that the median values of owner occupied homes turned out to be the best predictor among other variables. 
@@ -176,7 +179,6 @@ To conclude, three of the four variables I selected by assuming that they predic
 sessionInfo()
 ```
 
-more icons: http://www.entypo.com/index.php
 
 [![alt text][1.1]][1]
 [![alt text][2.1]][2]
