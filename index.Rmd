@@ -7,7 +7,6 @@ author:
 date: December 18, 2017
 ---  
 
-<br>
 
 #Abstract
 This report is the final assignment of the [IODS course](https://wiki.helsinki.fi/display/SocStats/Introduction+to+Open+Data+Science%2C+spring+2017). The Boston dataset available from MASS package was used to perform xxx . The analysis showed that xx xx and xxx. 
@@ -23,7 +22,6 @@ Before proceeding with the statistical analyses, we will first go through some d
 2. all variables are in columns
 3. all data under study are kept in single dataset
 
-more
 
 The R script for data wrangling can be found with [this link](https://github.com/kisun/IODS-final/blob/master/data/create_boston.R).
 
@@ -49,23 +47,42 @@ lstat | lower status of the population (percent).
 medv | median value of owner-occupied homes in \$1000s.
 
 
-First and foremost, it is important to get an overview of the data being analysed. As mentioned earlier, Boston data from [MASS package](https://cran.r-project.org/web/packages/MASS/index.html). 
+First and foremost, it is important to get an overview of the data being analysed. As mentioned earlier, Boston data is available from [MASS package](https://cran.r-project.org/web/packages/MASS/index.html) and thus can be directly imported into R for further analysis.
+
 ```{r ex2}
+#load MASS package and read the Boston data
 library(MASS)
 data(Boston)
 ```
 
 #Data Exploration
 ##Preliminary hypotheses
-Just by looking at the varibles, one can make few assumptions regarding the inter-relationships between different variables. Let's do some speculation:
+Just by looking at the varibles above, one can make few assumptions regarding the inter-relationships between different variables. Let's start with some assumptions:
 
-1. 
-2. 
-3. 
-4. 
+Here, the main goal of the analysis is to study how crime rate is associated with other aspects in Boston. After going through the background information, it is a bit easier to identify interesting variables that could be related to criminal activities. Personally, I believe that the following are the four interesting variables that are associated with crime rates:  
+
+**1. Accessibility to radial highways (rad)** : In my opinion, accessibility to radial highways plays vital role when it comes to crime related activities. Criminals may prefer towns with rapid access to radial highways especially for escaping purpose. Therefore, I believe that accessibility to radial highways may contribute to higher crime rates.  
+
+**2. Value of owner-occupied homes (medv)** : Usually, the crime-related activities are common with individuals with those that do not have enough property. They say that one of the main reasons for crime is poverty. An individual with basic income may also have homes with lower value but I think we can also correlate the value of house one has with crime-rate. In other words, value of owner-occupied home should be negatively correlated with crime.
+
+**3. Distance to employment centers in Boston (dis)** : I hypothesize that the farther the residential area from employment centers, the higher the crime rates. 
+
+**4. Proportion of blacks(black)** : There have been an impression that blacks commit more crime compared to whites. Therefore, I hypothesize that proportion of blacks is positively correlated with crime rate.
+
+
+
+In the following section, we will see in details how my hypotheses are explained by the data.
+
 
 ##Non-graphical data exploration
-Now, let's look at the summary of the boston data in the form of table (instead of default layout) using *pandoc.table* function of **pander** package. 
+Non-graphical data exploration is the first step before we start analyzing the data. This step different aspects of the data here we will cover three of those:
+
+1. measures of central tendency (mean, meadian)
+2. measures of variability (interquartile range, standard deviation)
+3. relationships between variables (correlation)
+
+Now, let's first look at the summary of the boston data in the form of table (instead of default layout) using *pandoc.table* function of **pander** package. 
+
 ```{r sum1}
 library(pander)
 pandoc.table(summary(Boston), caption = "Summary of Boston data", split.table = 100)
@@ -81,46 +98,71 @@ pandoc.table(corr_boston, split.table = 100)
 
 The table above shows the correlation matrix of all variables. Bird's eye view on the matrix shows that **tax** (full-value property-tax rate) and **rad** (index of accessibility to radial highways) are the most positively correlated variables, whereas **dis** (weighted mean of distances to five Boston employment centres) and **age** (proportion of owner-occupied units built prior to 1940) are the most negatively correlated variables. Moreover, **chas** (Charles river dummy variable) and **rad** are the two variables that are least correlated.
 
-##Graphical data exploration
+## Graphical data exploration{.tabset .tabset-pills}
 
-The same information can be presented as a graphical overview. This time we will make a correlogram, a graphical representation of coorelation matrix. The *corrplot()* function of **corrplot** package wll be used to visualize the correlation between all the variables of the Boston dataset.
+The same information can be presented as a graphical overview. This time we will make a correlogram, a graphical representation of coorelation matrix. We will visualize the summary of the data using box plot and histogram. The *corrplot()* function of **corrplot** package wll be used to visualize the correlation between all the variables of the Boston dataset.
+
+
+### Correlation plot
 ```{r, fig.width=9, fig.height=9}
 corrplot(corr_boston, method = "circle", tl.col = "black", cl.pos="b", tl.pos = "d", type = "upper" , tl.cex = 0.9 )
 ```
 
-The above graph gives much quicker impression on which variables are more correlated to each other. In the graph, positive correlations are displayed in blue and negative correlations in red color with intensity of the color and circle size being proportional to the correlation coefficients. The same relationship as described above using correlation summary can be seen in the form of circles with different size (intensity of correlation i.e highly correlated or lowly correlated) and different colors (wheether positively or negatively correlated).
-
-#Data Analysis  
-##Data Standardization
-
-Data scaling is useful for linear discriminant analysis. The **scale()** function will be used to scale the whole data. Here, the scaled value is generated by subtracting the column means from corresponding columns and then the difference is divided by standard deviation. i.e scaled(x)=(x-mean(x))/sd(x). 
-```{r ex_4.1}
-boston_scaled<-scale(Boston)
-pandoc.table(summary(boston_scaled), caption = "Summary of  Scaled Boston data", split.table = 120)
-#corr_bostons<-cor(boston_scaled) %>% round(2)
-#pandoc.table(corr_bostons, split.table = 120)
+### Correlation matrix
+```{r, ggpairs, fig.width=10, fig.height=10}
+library(ggplot2)
+library(GGally)
+ggpairs(Boston)
 ```
 
-We can make important observations on the summary of scaled data. The summary of the scaled Boston data has changed from the non-scaled Boston data. Most importantly, all the mean values have become zero and other values such as minimum, maximum, median and quartiles (1st and 3rd) are also changed for all variables. 
 
-Next, we will create quantile vector for crime using **quantile** function on scaled dataframe of Boston dataset. The quantile vectors will be labeled with meaningful labels to explain the intensity of crime i.e low, medium low, medium high and high. Lastly, we will replace the **Crim** variable with newly created **crime** variable and create the required data frame.
+The above graphs gives much quicker impression regarding the variables. In the correlation graph, for example, positive correlations are displayed in blue and negative correlations in red color with intensity of the color and circle size being proportional to the correlation coefficients. The same relationship as described above using correlation summary can be seen in the form of circles with different size (intensity of correlation i.e highly correlated or lowly correlated) and different colors (wheether positively or negatively correlated).
 
-```{r, ex_4.2}
-boston_scaled<- data.frame(boston_scaled)
-qvc<-quantile(boston_scaled$crim)
-crime <- cut(boston_scaled$crim, breaks = qvc, label = c("low", "med_low", "med_high", "high"), include.lowest = TRUE)
-boston_scaled <- dplyr::select(boston_scaled, -crim)
-boston_scaled<-data.frame(boston_scaled, crime)
-#table(boston_scaled$crime)
+#Data Analysis
+After getting an overview of the data, we will fit linear model on  the subset of the data to check how four variables (rad, medv, dis and black) are affecting crim. 
+
+
+###Linear Regression 
+In the following section, I will perform multiple linear regression analysis on crime rate based on the other four choosen variables.
+```{r, my_model}
+#let's first create subset of Boston data (my_Bos) using five variables kept in (my_var)
+myvar<-c("crim", "black", "medv", "dis", "rad")
+my_Bos<-select(Boston, one_of(myvar))
+#fit linear model
+lm_crim<-lm(crim~. , data=my_Bos)
+lm_crim
+```
+From the output, we saw that the intercept is 0.1280 with coefficients for dependant variables being 0.504(rad), -0.0967(medv), -0.2000(dis) and 0.1273(lstat). 
+
+```{r, summary_lin_regr}
+#summarize the model
+summary(lm_crim)
+```
+As we can see, not all of the variables I had choosen were significant. Therefore, it's a wiser idea to remove the insignificant variables and re-fit the model.
+```{r, model2}
+sig_var<-c("")
 ```
 
-##Linear Regression  
+###Model validation{.tabset .tabset-pills}
+
+#### Residual vs Fitted
+```{r, plot1}
+plot(lm_crim, which = 1)
+```
+
+#### Normal Q-Q
+```{r, plot2}
+plot(lm_crim, which = 2)
+```
+
+#### Residual vs Leverage
+```{r, plot3}
+plot(lm_crim, which = 5)
+```
 
 
-##Logistic Regression  
 
-##PCA
-
+more
 
 #Conclusion  
 

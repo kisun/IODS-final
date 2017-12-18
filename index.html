@@ -24,6 +24,7 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -66,6 +67,9 @@ code > span.wa { color: #bf0303; } /* Warning */
 code > span.al { color: #bf0303; font-weight: bold; } /* Alert */
 code > span.er { color: #bf0303; text-decoration: underline; } /* Error */
 code > span. { color: #1f1c1b; } /* Normal */
+div.sourceCode {
+  overflow-x: visible;
+}
 </style>
 <style type="text/css">
   pre:not([class]) {
@@ -193,6 +197,14 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
 
 
@@ -342,6 +354,14 @@ div.tocify {
 
 <div class="fluid-row" id="header">
 
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
 
 
 <h1 class="title toc-ignore">Boston Housing Dataset</h1>
@@ -354,7 +374,6 @@ Natural Resources Institute Finland (Luke)<br><a class="author_email" href="mail
 </div>
 
 
-<p><br></p>
 <div id="abstract" class="section level1">
 <h1>Abstract</h1>
 <p>This report is the final assignment of the <a href="https://wiki.helsinki.fi/display/SocStats/Introduction+to+Open+Data+Science%2C+spring+2017">IODS course</a>. The Boston dataset available from MASS package was used to perform xxx . The analysis showed that xx xx and xxx.</p>
@@ -371,7 +390,6 @@ Natural Resources Institute Finland (Luke)<br><a class="author_email" href="mail
 <li>all variables are in columns</li>
 <li>all data under study are kept in single dataset</li>
 </ol>
-<p>more</p>
 <p>The R script for data wrangling can be found with <a href="https://github.com/kisun/IODS-final/blob/master/data/create_boston.R">this link</a>.</p>
 </div>
 <div id="data-summary" class="section level1">
@@ -447,25 +465,32 @@ Natural Resources Institute Finland (Luke)<br><a class="author_email" href="mail
 </tr>
 </tbody>
 </table>
-<p>First and foremost, it is important to get an overview of the data being analysed. As mentioned earlier, Boston data from <a href="https://cran.r-project.org/web/packages/MASS/index.html">MASS package</a>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(MASS)
+<p>First and foremost, it is important to get an overview of the data being analysed. As mentioned earlier, Boston data is available from <a href="https://cran.r-project.org/web/packages/MASS/index.html">MASS package</a> and thus can be directly imported into R for further analysis.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#load MASS package and read the Boston data</span>
+<span class="kw">library</span>(MASS)
 <span class="kw">data</span>(Boston)</code></pre></div>
 </div>
 <div id="data-exploration" class="section level1">
 <h1>Data Exploration</h1>
 <div id="preliminary-hypotheses" class="section level2">
 <h2>Preliminary hypotheses</h2>
-<p>Just by looking at the varibles, one can make few assumptions regarding the inter-relationships between different variables. Let’s do some speculation:</p>
-<ol style="list-style-type: decimal">
-<li></li>
-<li></li>
-<li></li>
-<li></li>
-</ol>
+<p>Just by looking at the varibles above, one can make few assumptions regarding the inter-relationships between different variables. Let’s start with some assumptions:</p>
+<p>Here, the main goal of the analysis is to study how crime rate is associated with other aspects in Boston. After going through the background information, it is a bit easier to identify interesting variables that could be related to criminal activities. Personally, I believe that the following are the four interesting variables that are associated with crime rates:</p>
+<p><strong>1. Accessibility to radial highways (rad)</strong> : In my opinion, accessibility to radial highways plays vital role when it comes to crime related activities. Criminals may prefer towns with rapid access to radial highways especially for escaping purpose. Therefore, I believe that accessibility to radial highways may contribute to higher crime rates.</p>
+<p><strong>2. Value of owner-occupied homes (medv)</strong> : Usually, the crime-related activities are common with individuals with those that do not have enough property. They say that one of the main reasons for crime is poverty. An individual with basic income may also have homes with lower value but I think we can also correlate the value of house one has with crime-rate. In other words, value of owner-occupied home should be negatively correlated with crime.</p>
+<p><strong>3. Distance to employment centers in Boston (dis)</strong> : I hypothesize that the farther the residential area from employment centers, the higher the crime rates.</p>
+<p><strong>4. Proportion of blacks(black)</strong> : There have been an impression that blacks commit more crime compared to whites. Therefore, I hypothesize that proportion of blacks is positively correlated with crime rate.</p>
+<p>In the following section, we will see in details how my hypotheses are explained by the data.</p>
 </div>
 <div id="non-graphical-data-exploration" class="section level2">
 <h2>Non-graphical data exploration</h2>
-<p>Now, let’s look at the summary of the boston data in the form of table (instead of default layout) using <em>pandoc.table</em> function of <strong>pander</strong> package.</p>
+<p>Non-graphical data exploration is the first step before we start analyzing the data. This step different aspects of the data here we will cover three of those:</p>
+<ol style="list-style-type: decimal">
+<li>measures of central tendency (mean, meadian)</li>
+<li>measures of variability (interquartile range, standard deviation)</li>
+<li>relationships between variables (correlation)</li>
+</ol>
+<p>Now, let’s first look at the summary of the boston data in the form of table (instead of default layout) using <em>pandoc.table</em> function of <strong>pander</strong> package.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(pander)
 <span class="kw">pandoc.table</span>(<span class="kw">summary</span>(Boston), <span class="dt">caption =</span> <span class="st">&quot;Summary of Boston data&quot;</span>, <span class="dt">split.table =</span> <span class="dv">100</span>)</code></pre></div>
 <pre><code>## 
@@ -608,94 +633,96 @@ Natural Resources Institute Finland (Luke)<br><a class="author_email" href="mail
 ## -----------------------------------------------</code></pre>
 <p>The table above shows the correlation matrix of all variables. Bird’s eye view on the matrix shows that <strong>tax</strong> (full-value property-tax rate) and <strong>rad</strong> (index of accessibility to radial highways) are the most positively correlated variables, whereas <strong>dis</strong> (weighted mean of distances to five Boston employment centres) and <strong>age</strong> (proportion of owner-occupied units built prior to 1940) are the most negatively correlated variables. Moreover, <strong>chas</strong> (Charles river dummy variable) and <strong>rad</strong> are the two variables that are least correlated.</p>
 </div>
-<div id="graphical-data-exploration" class="section level2">
+<div id="graphical-data-exploration" class="section level2 tabset tabset-pills">
 <h2>Graphical data exploration</h2>
-<p>The same information can be presented as a graphical overview. This time we will make a correlogram, a graphical representation of coorelation matrix. The <em>corrplot()</em> function of <strong>corrplot</strong> package wll be used to visualize the correlation between all the variables of the Boston dataset.</p>
+<p>The same information can be presented as a graphical overview. This time we will make a correlogram, a graphical representation of coorelation matrix. We will visualize the summary of the data using box plot and histogram. The <em>corrplot()</em> function of <strong>corrplot</strong> package wll be used to visualize the correlation between all the variables of the Boston dataset.</p>
+<div id="correlation-plot" class="section level3">
+<h3>Correlation plot</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">corrplot</span>(corr_boston, <span class="dt">method =</span> <span class="st">&quot;circle&quot;</span>, <span class="dt">tl.col =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">cl.pos=</span><span class="st">&quot;b&quot;</span>, <span class="dt">tl.pos =</span> <span class="st">&quot;d&quot;</span>, <span class="dt">type =</span> <span class="st">&quot;upper&quot;</span> , <span class="dt">tl.cex =</span> <span class="fl">0.9</span> )</code></pre></div>
 <p><img src="index_files/figure-html/unnamed-chunk-1-1.png" width="864" /></p>
-<p>The above graph gives much quicker impression on which variables are more correlated to each other. In the graph, positive correlations are displayed in blue and negative correlations in red color with intensity of the color and circle size being proportional to the correlation coefficients. The same relationship as described above using correlation summary can be seen in the form of circles with different size (intensity of correlation i.e highly correlated or lowly correlated) and different colors (wheether positively or negatively correlated).</p>
+</div>
+<div id="correlation-matrix" class="section level3">
+<h3>Correlation matrix</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
+<span class="kw">library</span>(GGally)</code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;GGally&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     nasa</code></pre>
+<pre><code>## The following object is masked from &#39;package:pander&#39;:
+## 
+##     wrap</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggpairs</span>(Boston)</code></pre></div>
+<p><img src="index_files/figure-html/ggpairs-1.png" width="960" /></p>
+<p>The above graphs gives much quicker impression regarding the variables. In the correlation graph, for example, positive correlations are displayed in blue and negative correlations in red color with intensity of the color and circle size being proportional to the correlation coefficients. The same relationship as described above using correlation summary can be seen in the form of circles with different size (intensity of correlation i.e highly correlated or lowly correlated) and different colors (wheether positively or negatively correlated).</p>
+</div>
 </div>
 </div>
 <div id="data-analysis" class="section level1">
 <h1>Data Analysis</h1>
-<div id="data-standardization" class="section level2">
-<h2>Data Standardization</h2>
-<p>Data scaling is useful for linear discriminant analysis. The <strong>scale()</strong> function will be used to scale the whole data. Here, the scaled value is generated by subtracting the column means from corresponding columns and then the difference is divided by standard deviation. i.e scaled(x)=(x-mean(x))/sd(x).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">boston_scaled&lt;-<span class="kw">scale</span>(Boston)
-<span class="kw">pandoc.table</span>(<span class="kw">summary</span>(boston_scaled), <span class="dt">caption =</span> <span class="st">&quot;Summary of  Scaled Boston data&quot;</span>, <span class="dt">split.table =</span> <span class="dv">120</span>)</code></pre></div>
+<p>After getting an overview of the data, we will fit linear model on the subset of the data to check how four variables (rad, medv, dis and black) are affecting crim.</p>
+<div id="linear-regression" class="section level3">
+<h3>Linear Regression</h3>
+<p>In the following section, I will perform multiple linear regression analysis on crime rate based on the other four choosen variables.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#let&#39;s first create subset of Boston data (my_Bos) using five variables kept in (my_var)</span>
+myvar&lt;-<span class="kw">c</span>(<span class="st">&quot;crim&quot;</span>, <span class="st">&quot;black&quot;</span>, <span class="st">&quot;medv&quot;</span>, <span class="st">&quot;dis&quot;</span>, <span class="st">&quot;rad&quot;</span>)
+my_Bos&lt;-<span class="kw">select</span>(Boston, <span class="kw">one_of</span>(myvar))
+<span class="co">#fit linear model</span>
+lm_crim&lt;-<span class="kw">lm</span>(crim<span class="op">~</span>. , <span class="dt">data=</span>my_Bos)
+lm_crim</code></pre></div>
 <pre><code>## 
-## --------------------------------------------------------------------------------------------------------------
-##        crim                 zn               indus             chas               nox               rm        
-## ------------------- ------------------ ----------------- ----------------- ----------------- -----------------
-##  Min.  :-0.419367    Min.  :-0.48724    Min.  :-1.5563    Min.  :-0.2723    Min.  :-1.4644    Min.  :-3.8764  
+## Call:
+## lm(formula = crim ~ ., data = my_Bos)
 ## 
-##  1st Qu.:-0.410563   1st Qu.:-0.48724   1st Qu.:-0.8668   1st Qu.:-0.2723   1st Qu.:-0.9121   1st Qu.:-0.5681 
+## Coefficients:
+## (Intercept)        black         medv          dis          rad  
+##    6.529163    -0.009053    -0.141722    -0.292778     0.483580</code></pre>
+<p>From the output, we saw that the intercept is 0.1280 with coefficients for dependant variables being 0.504(rad), -0.0967(medv), -0.2000(dis) and 0.1273(lstat).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#summarize the model</span>
+<span class="kw">summary</span>(lm_crim)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = crim ~ ., data = my_Bos)
 ## 
-##  Median :-0.390280   Median :-0.48724   Median :-0.2109   Median :-0.2723   Median :-0.1441   Median :-0.1084 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -10.816  -1.668  -0.468   0.738  76.323 
 ## 
-##   Mean : 0.000000     Mean : 0.00000     Mean : 0.0000     Mean : 0.0000     Mean : 0.0000     Mean : 0.0000  
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  6.529163   1.730608   3.773 0.000181 ***
+## black       -0.009053   0.003633  -2.492 0.013021 *  
+## medv        -0.141722   0.034902  -4.061 5.68e-05 ***
+## dis         -0.292778   0.159593  -1.835 0.067168 .  
+## rad          0.483580   0.042263  11.442  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-##  3rd Qu.: 0.007389   3rd Qu.: 0.04872   3rd Qu.: 1.0150   3rd Qu.:-0.2723   3rd Qu.: 0.5981   3rd Qu.: 0.4823 
-## 
-##  Max.  : 9.924110    Max.  : 3.80047    Max.  : 2.4202    Max.  : 3.6648    Max.  : 2.7296    Max.  : 3.5515  
-## --------------------------------------------------------------------------------------------------------------
-## 
-## Table: Summary of  Scaled Boston data (continued below)
-## 
-##  
-## -----------------------------------------------------------------------------------------------------------
-##        age               dis               rad               tax             ptratio            black      
-## ----------------- ----------------- ----------------- ----------------- ----------------- -----------------
-##  Min.  :-2.3331    Min.  :-1.2658    Min.  :-0.9819    Min.  :-1.3127    Min.  :-2.7047    Min.  :-3.9033  
-## 
-##  1st Qu.:-0.8366   1st Qu.:-0.8049   1st Qu.:-0.6373   1st Qu.:-0.7668   1st Qu.:-0.4876   1st Qu.: 0.2049 
-## 
-##  Median : 0.3171   Median :-0.2790   Median :-0.5225   Median :-0.4642   Median : 0.2746   Median : 0.3808 
-## 
-##   Mean : 0.0000     Mean : 0.0000     Mean : 0.0000     Mean : 0.0000     Mean : 0.0000     Mean : 0.0000  
-## 
-##  3rd Qu.: 0.9059   3rd Qu.: 0.6617   3rd Qu.: 1.6596   3rd Qu.: 1.5294   3rd Qu.: 0.8058   3rd Qu.: 0.4332 
-## 
-##  Max.  : 1.1164    Max.  : 3.9566    Max.  : 1.6596    Max.  : 1.7964    Max.  : 1.6372    Max.  : 0.4406  
-## -----------------------------------------------------------------------------------------------------------
-## 
-## Table: Table continues below
-## 
-##  
-## -----------------------------------
-##       lstat             medv       
-## ----------------- -----------------
-##  Min.  :-1.5296    Min.  :-1.9063  
-## 
-##  1st Qu.:-0.7986   1st Qu.:-0.5989 
-## 
-##  Median :-0.1811   Median :-0.1449 
-## 
-##   Mean : 0.0000     Mean : 0.0000  
-## 
-##  3rd Qu.: 0.6024   3rd Qu.: 0.2683 
-## 
-##  Max.  : 3.5453    Max.  : 2.9865  
-## -----------------------------------</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#corr_bostons&lt;-cor(boston_scaled) %&gt;% round(2)</span>
-<span class="co">#pandoc.table(corr_bostons, split.table = 120)</span></code></pre></div>
-<p>We can make important observations on the summary of scaled data. The summary of the scaled Boston data has changed from the non-scaled Boston data. Most importantly, all the mean values have become zero and other values such as minimum, maximum, median and quartiles (1st and 3rd) are also changed for all variables.</p>
-<p>Next, we will create quantile vector for crime using <strong>quantile</strong> function on scaled dataframe of Boston dataset. The quantile vectors will be labeled with meaningful labels to explain the intensity of crime i.e low, medium low, medium high and high. Lastly, we will replace the <strong>Crim</strong> variable with newly created <strong>crime</strong> variable and create the required data frame.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">boston_scaled&lt;-<span class="st"> </span><span class="kw">data.frame</span>(boston_scaled)
-qvc&lt;-<span class="kw">quantile</span>(boston_scaled<span class="op">$</span>crim)
-crime &lt;-<span class="st"> </span><span class="kw">cut</span>(boston_scaled<span class="op">$</span>crim, <span class="dt">breaks =</span> qvc, <span class="dt">label =</span> <span class="kw">c</span>(<span class="st">&quot;low&quot;</span>, <span class="st">&quot;med_low&quot;</span>, <span class="st">&quot;med_high&quot;</span>, <span class="st">&quot;high&quot;</span>), <span class="dt">include.lowest =</span> <span class="ot">TRUE</span>)
-boston_scaled &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">select</span>(boston_scaled, <span class="op">-</span>crim)
-boston_scaled&lt;-<span class="kw">data.frame</span>(boston_scaled, crime)
-<span class="co">#table(boston_scaled$crime)</span></code></pre></div>
+## Residual standard error: 6.524 on 501 degrees of freedom
+## Multiple R-squared:  0.4293, Adjusted R-squared:  0.4247 
+## F-statistic:  94.2 on 4 and 501 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>As we can see, not all of the variables I had choosen were significant. Therefore, it’s a wiser idea to remove the insignificant variables and re-fit the model.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sig_var&lt;-<span class="kw">c</span>(<span class="st">&quot;&quot;</span>)</code></pre></div>
 </div>
-<div id="linear-regression" class="section level2">
-<h2>Linear Regression</h2>
+<div id="model-validation" class="section level3 tabset tabset-pills">
+<h3>Model validation</h3>
+<div id="residual-vs-fitted" class="section level4">
+<h4>Residual vs Fitted</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(lm_crim, <span class="dt">which =</span> <span class="dv">1</span>)</code></pre></div>
+<p><img src="index_files/figure-html/plot1-1.png" width="672" /></p>
 </div>
-<div id="logistic-regression" class="section level2">
-<h2>Logistic Regression</h2>
+<div id="normal-q-q" class="section level4">
+<h4>Normal Q-Q</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(lm_crim, <span class="dt">which =</span> <span class="dv">2</span>)</code></pre></div>
+<p><img src="index_files/figure-html/plot2-1.png" width="672" /></p>
 </div>
-<div id="pca" class="section level2">
-<h2>PCA</h2>
+<div id="residual-vs-leverage" class="section level4">
+<h4>Residual vs Leverage</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(lm_crim, <span class="dt">which =</span> <span class="dv">5</span>)</code></pre></div>
+<p><img src="index_files/figure-html/plot3-1.png" width="672" /></p>
+<p>more</p>
+</div>
 </div>
 </div>
 <div id="conclusion" class="section level1">
@@ -724,15 +751,21 @@ boston_scaled&lt;-<span class="kw">data.frame</span>(boston_scaled, crime)
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] dplyr_0.7.4   corrplot_0.84 pander_0.6.1  MASS_7.3-47  
+## [1] GGally_1.3.2  ggplot2_2.2.1 dplyr_0.7.4   corrplot_0.84 pander_0.6.1 
+## [6] MASS_7.3-47  
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.12     assertthat_0.2.0 digest_0.6.12    rprojroot_1.2   
-##  [5] R6_2.2.2         backports_1.1.0  magrittr_1.5     evaluate_0.10.1 
-##  [9] rlang_0.1.4      stringi_1.1.5    bindrcpp_0.2     rmarkdown_1.8   
-## [13] tools_3.4.2      stringr_1.2.0    glue_1.2.0       yaml_2.1.14     
-## [17] compiler_3.4.2   pkgconfig_2.0.1  htmltools_0.3.6  bindr_0.1       
-## [21] knitr_1.16       tibble_1.3.4</code></pre>
+##  [1] Rcpp_0.12.12       knitr_1.16         bindr_0.1         
+##  [4] magrittr_1.5       munsell_0.4.3      colorspace_1.3-2  
+##  [7] R6_2.2.2           rlang_0.1.4        plyr_1.8.4        
+## [10] stringr_1.2.0      tools_3.4.2        grid_3.4.2        
+## [13] gtable_0.2.0       htmltools_0.3.6    lazyeval_0.2.0    
+## [16] yaml_2.1.14        rprojroot_1.2      digest_0.6.12     
+## [19] assertthat_0.2.0   tibble_1.3.4       bindrcpp_0.2      
+## [22] reshape2_1.4.2     RColorBrewer_1.1-2 glue_1.2.0        
+## [25] evaluate_0.10.1    rmarkdown_1.8      labeling_0.3      
+## [28] stringi_1.1.5      compiler_3.4.2     scales_0.4.1      
+## [31] backports_1.1.0    reshape_0.8.7      pkgconfig_2.0.1</code></pre>
 <p>more icons: <a href="http://www.entypo.com/index.php" class="uri">http://www.entypo.com/index.php</a></p>
 <p><a href="http://www.twitter.com/kisunpokharel"><img src="http://i.imgur.com/tXSoThF.png" title="Twitter" alt="alt text" /></a> <a href="http://www.facebook.com/pokharel.kisun"><img src="http://i.imgur.com/P3YfQoD.png" title="Facebook" alt="alt text" /></a> <a href="http://www.github.com/kisun"><img src="http://i.imgur.com/0o48UoR.png" title="Github" alt="alt text" /></a></p>
 </div>

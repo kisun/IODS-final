@@ -22,6 +22,7 @@ output:
     theme: yeti
     highlight: kate
     css: style.css
+    code_folding: hide
     lib_dir: site_libs
     self_contained: no
 output_dir: .
