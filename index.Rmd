@@ -9,11 +9,11 @@ date: December 18, 2017
 
 
 #Abstract
-This report is the final assignment of the [IODS course](https://wiki.helsinki.fi/display/SocStats/Introduction+to+Open+Data+Science%2C+spring+2017). The Boston dataset available from MASS package was used to perform xxx . The analysis showed that xx xx and xxx. 
+This report is the final assignment of the [IODS course](https://wiki.helsinki.fi/display/SocStats/Introduction+to+Open+Data+Science%2C+spring+2017). The Boston dataset available from MASS package was used to perform multiple linear regression analysis . The analysis showed that the housing price in Boston may determine if the owner could have crime history. In other words, the price of owner occupied homes proved to be highly significant in determining the crime rate.
 
 
 #Introduction  
-The Boston Housing Dataset contains information related to housing in the area of Boston Mass.
+The Boston Housing Dataset contains information related to housing in the area of Boston Mass. 
 
 #Data Wrangling  
 Before proceeding with the statistical analyses, we will first go through some data wrangling steps. In many cases, the available (raw) data may contain noise such as missing values and are usually untidy and poorly formatted. Therefore, the aim of data wrangling step is to convert raw data into clean (analysis ready) data and to make sure that the dataset satisfies the following conditions: 
@@ -63,7 +63,7 @@ Here, the main goal of the analysis is to study how crime rate is associated wit
 
 **1. Accessibility to radial highways (rad)** : In my opinion, accessibility to radial highways plays vital role when it comes to crime related activities. Criminals may prefer towns with rapid access to radial highways especially for escaping purpose. Therefore, I believe that accessibility to radial highways may contribute to higher crime rates.  
 
-**2. Value of owner-occupied homes (medv)** : Usually, the crime-related activities are common with individuals with those that do not have enough property. They say that one of the main reasons for crime is poverty. An individual with basic income may also have homes with lower value but I think we can also correlate the value of house one has with crime-rate. In other words, value of owner-occupied home should be negatively correlated with crime.
+**2. Value of owner-occupied homes (medv)** : Usually, the crime-related activities are common with individuals who do not have enough property. They say that one of the main reasons for crime is poverty. Individual with basic income may also have homes with lower value but I think we can also correlate the value of house one has with crime-rate. In other words, value of owner-occupied home should be negatively correlated with crime.
 
 **3. Distance to employment centers in Boston (dis)** : I hypothesize that the farther the residential area from employment centers, the higher the crime rates. 
 
@@ -119,29 +119,51 @@ ggpairs(Boston)
 The above graphs gives much quicker impression regarding the variables. In the correlation graph, for example, positive correlations are displayed in blue and negative correlations in red color with intensity of the color and circle size being proportional to the correlation coefficients. The same relationship as described above using correlation summary can be seen in the form of circles with different size (intensity of correlation i.e highly correlated or lowly correlated) and different colors (wheether positively or negatively correlated).
 
 #Data Analysis
-After getting an overview of the data, we will fit linear model on  the subset of the data to check how four variables (rad, medv, dis and black) are affecting crim. 
+After getting an overview of the data, we will employ multiple linear regression model (method) on  the subset of the data to check how four variables (rad, medv, dis  and black) are affecting crim. 
 
 
-###Linear Regression 
-In the following section, I will perform multiple linear regression analysis on crime rate based on the other four choosen variables.
-```{r, my_model}
+###Multiple Linear Regression 
+Multiple linear regression is commonly used method for most of the the regression analyses.  As a predictive analysis method, multiple linear regression describes given data and explain the relationship between one dependent variable and two or more independent variables. Our research question for the multiple linear regression is as follows:
+Can we explain the crime rate in Boston area based on the four variables that were hypothesized earlier in this report?
+
+First, we need to check whether there is a linear relationship between the independent variables and the dependent variable in our multiple linear regression model. After that, we fit the model simply using *lm()* function and call output usig *summary()* function.
+
+```{r, plot_myar}
 #let's first create subset of Boston data (my_Bos) using five variables kept in (my_var)
 myvar<-c("crim", "black", "medv", "dis", "rad")
 my_Bos<-select(Boston, one_of(myvar))
+ggpairs(my_Bos)
 #fit linear model
 lm_crim<-lm(crim~. , data=my_Bos)
-lm_crim
-```
-From the output, we saw that the intercept is 0.1280 with coefficients for dependant variables being 0.504(rad), -0.0967(medv), -0.2000(dis) and 0.1273(lstat). 
-
-```{r, summary_lin_regr}
 #summarize the model
 summary(lm_crim)
 ```
-As we can see, not all of the variables I had choosen were significant. Therefore, it's a wiser idea to remove the insignificant variables and re-fit the model.
-```{r, model2}
-sig_var<-c("")
-```
+From the output, residuals represent the difference between the actual values i.e the crime rate in Boston and each of the four dependent variables. The next section shows the coefficients of the model. From the output, we saw that the intercept is 6.529163 with coefficients for dependant variables being -0.009053(black), -0.141722(medv), -0.292778(dis) and 0.483580(rad). Next, we can also see Standard errors for the coefficients which measure the average amount that the coefficient estimates differ from the dependent variables. Moreover, the t-value measures how far the coefficient estimation is away from zero with the assumption that the farther the better. In other words, we reject the null hypothesis when it's far from zero. 
+
+In the above model, the t-values are farthest in *rad* followed by *medv*, *black* and *dis*. These values are also larger compared to standard error except *dis*, which indiciate that these variables do have some relationship with the *crime*. The last column indicates the probability for getting any value >= *t*. In general, a p-value of 0.05 is good cut-off for significance. Thus, we can see that three (*black*, *medv* and *rad*) out of four choosen variables were significant.  
+
+The residual standard error indicates the quality of the regression model. This value some how gives how much we can be confident of our model. Here, the residual error is based on 501 degrees of freedom, where the degrees of freedom are data points used for estimating the parameters. 
+
+
+Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -10.816  -1.668  -0.468   0.738  76.323 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  6.529163   1.730608   3.773 0.000181 ***
+## black       -0.009053   0.003633  -2.492 0.013021 *  
+## medv        -0.141722   0.034902  -4.061 5.68e-05 ***
+## dis         -0.292778   0.159593  -1.835 0.067168 .  
+## rad          0.483580   0.042263  11.442  < 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 6.524 on 501 degrees of freedom
+## Multiple R-squared:  0.4293, Adjusted R-squared:  0.4247 
+## F-statistic:  94.2 on 4 and 501 DF,  p-value: < 2.2e-16
+
+
 
 ###Model validation{.tabset .tabset-pills}
 
@@ -161,12 +183,11 @@ plot(lm_crim, which = 5)
 ```
 
 
-
-more
+The three different diagnostic plots are generated above.The assumptions behind all three models is linearity and normality. Based on the above plots, we can conclude that the errors are normally distributed (clearly observed in q-q plot). Similarly, residual versus fitted model showed that the errors are not dependent on the crime variable. Moreover, we can see that even two points (towards the right) have minor influence to the assumption in case of residual vs leverage model. All the models have adressed the outliers nicely. Thus, assumptions in all models are more or less valid.
 
 #Conclusion  
+To conclude, three of the four variables I selected by assuming that they predict crime rate in Boston were found to be valid. Moreover, it was found that the median values of owner occupied homes turned out to be the best predictor among other variables. 
 
-what is goin on?
 
 ##Session information:
 
