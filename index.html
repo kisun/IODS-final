@@ -376,7 +376,7 @@ Natural Resources Institute Finland (Luke)<br><a class="author_email" href="mail
 
 <div id="abstract" class="section level1">
 <h1>Abstract</h1>
-<p>This report is the final assignment of the <a href="https://wiki.helsinki.fi/display/SocStats/Introduction+to+Open+Data+Science%2C+spring+2017">IODS course</a>. The Boston dataset available from MASS package was used to perform xxx . The analysis showed that xx xx and xxx.</p>
+<p>This report is the final assignment of the <a href="https://wiki.helsinki.fi/display/SocStats/Introduction+to+Open+Data+Science%2C+spring+2017">IODS course</a>. The Boston dataset available from MASS package was used to perform multiple linear regression analysis . The analysis showed that the housing price in Boston may determine if the owner could have crime history. In other words, the price of owner occupied homes proved to be highly significant in determining the crime rate.</p>
 </div>
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
@@ -720,12 +720,13 @@ lm_crim&lt;-<span class="kw">lm</span>(crim<span class="op">~</span>. , <span cl
 <h4>Residual vs Leverage</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(lm_crim, <span class="dt">which =</span> <span class="dv">5</span>)</code></pre></div>
 <p><img src="index_files/figure-html/plot3-1.png" width="672" /></p>
-<p>The three different diagnostic plots are generated above.The assumptions behind all three models is linearity and normality. Based on the above plots, we can conclude that the errors are normally distributed (clearly observed in q-q plot). Similarly, residual versus fitted model showed that the errors are not dependent on the attitude variable. Moreover, we can see that even two points (towards the right) have minor influence to the assumption in case of residual vs leverage model. All the models have adressed the outliers nicely. Thus, assumptions in all models are more or less valid.</p>
+<p>The three different diagnostic plots are generated above.The assumptions behind all three models is linearity and normality. Based on the above plots, we can conclude that the errors are normally distributed (clearly observed in q-q plot). Similarly, residual versus fitted model showed that the errors are not dependent on the crime variable. Moreover, we can see that even two points (towards the right) have minor influence to the assumption in case of residual vs leverage model. All the models have adressed the outliers nicely. Thus, assumptions in all models are more or less valid.</p>
 </div>
 </div>
 </div>
 <div id="conclusion" class="section level1">
 <h1>Conclusion</h1>
+<p>To conclude, three of the four variables I selected by assuming that they predict crime rate in Boston were found to be valid. Moreover, it was found that the median values of owner occupied homes turned out to be the best predictor among other variables.</p>
 <div id="session-information" class="section level2">
 <h2>Session information:</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre></div>
