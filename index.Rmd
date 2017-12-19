@@ -165,7 +165,7 @@ plot(lm_crim, which = 5)
 
 ###Interpretation (model validation)
 
-The three different diagnostic plots are generated above.The assumptions behind all three models is linearity and normality. Based on the above plots, we can conclude that the errors are normally distributed (clearly observed in q-q plot). Similarly, residual versus fitted model showed that the errors are not dependent on the crime variable. Moreover, we can see that even two points (towards the right) have minor influence to the assumption in case of residual vs leverage model. All the models have adressed the outliers nicely. Thus, assumptions in all models are more or less valid.
+The three different diagnostic plots are generated above.The assumptions behind all three models is linearity and normality. Based on the above plots, we can conclude that the errors are normally distributed (clearly observed in q-q plot). Similarly, residual versus fitted model showed that the errors are not dependent on the crime variable. Moreover, we can see that few outliers (381, 406 and 410) have influences to the assumption that is clearly represented in case of residual vs leverage model and can be seen in other two plots as well. All the models have adressed the outliers nicely. Thus, assumptions in all models are more or less valid.
 
 
 
