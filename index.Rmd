@@ -49,9 +49,19 @@ medv | median value of owner-occupied homes in \$1000s.
 
 First and foremost, it is important to get an overview of the data being analysed. As mentioned earlier, Boston data is available from [MASS package](https://cran.r-project.org/web/packages/MASS/index.html) and thus can be directly imported into R for further analysis.
 
-```{r ex2}
-#load MASS package and read the Boston data
+```{r, libraries, message=FALSE, echo=FALSE, warning=FALSE}
 library(MASS)
+library(pander)
+library(corrplot)
+library(dplyr)
+library(ggplot2)
+library(GGally)
+
+```
+
+```{r, ex2, message=FALSE, echo=FALSE, warning=FALSE}
+#load MASS package and read the Boston data
+
 data(Boston)
 ```
 
@@ -84,14 +94,11 @@ Non-graphical data exploration is the first step before we start analyzing the d
 Now, let's first look at the summary of the boston data in the form of table (instead of default layout) using *pandoc.table* function of **pander** package. 
 
 ```{r sum1}
-library(pander)
 pandoc.table(summary(Boston), caption = "Summary of Boston data", split.table = 100)
 ```
 After getting a statistical summary of, it's worthwhile to see to what extent each variables are correlated. For that, we use **corr()** function on Boston data. 
 
 ```{r, ex3.2}
-library(corrplot)
-library(dplyr)
 corr_boston<-cor(Boston) %>% round(2)
 pandoc.table(corr_boston, split.table = 100)
 ```
@@ -110,8 +117,7 @@ corrplot(corr_boston, method = "circle", tl.col = "black", cl.pos="b", tl.pos = 
 
 ### Correlation matrix
 ```{r, ggpairs, fig.width=10, fig.height=10}
-library(ggplot2)
-library(GGally)
+
 ggpairs(Boston)
 ```
 
