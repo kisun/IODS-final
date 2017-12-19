@@ -140,10 +140,11 @@ summary(lm_crim)
 ```
 From the output, residuals represent the difference between the actual values i.e the crime rate in Boston and each of the four dependent variables. The next section shows the coefficients of the model. From the output, we saw that the intercept is 6.529163 with coefficients for dependant variables being -0.009053(black), -0.141722(medv), -0.292778(dis) and 0.483580(rad). Next, we can also see Standard errors for the coefficients which measure the average amount that the coefficient estimates differ from the dependent variables. Moreover, the t-value measures how far the coefficient estimation is away from zero with the assumption that the farther the better. In other words, we reject the null hypothesis when it's far from zero. 
 
-In the above model, the t-values are farthest in *rad* followed by *medv*, *black* and *dis*. These values are also larger compared to standard error except *dis*, which indiciate that these variables do have some relationship with the *crime*. The last column indicates the probability for getting any value >= *t*. In general, a p-value of 0.05 is good cut-off for significance. Thus, we can see that three (*black*, *medv* and *rad*) out of four choosen variables were significant.  
+In the above model, the t-values are farthest in *rad* followed by *medv*, *black* and *dis*. These values are also larger compared to standard error except *dis*, which indiciate that these variables do have some relationship with the *crime*. The last column indicates the probability for getting any value >= *t*. In general, a p-value of 0.05 is good cut-off for significance. Thus, we can see that three (*black*, *medv* and *rad*) out of four choosen variables were significant.   
 
 The residual standard error indicates the quality of the regression model. This value some how gives how much we can be confident of our model. Here, the residual error is based on 501 degrees of freedom, where the degrees of freedom are data points used for estimating the parameters. 
 
+Finally, I would like to highlight to what extent my assumptions have been addressed by the model. Although I hypothesized that all of my four chosen variables have impact on crime, it turned out that the distance to employment centers (*dis*) is not significant variable to predict crime rate. Besides that, all three variables were significant with *rad* being the most significant one followed by *medv* and *black*.
 
 
 ###Model validation{.tabset .tabset-pills}
@@ -166,7 +167,6 @@ plot(lm_crim, which = 5)
 ###Interpretation (model validation)
 
 The three different diagnostic plots are generated above.The assumptions behind all three models is linearity and normality. Based on the above plots, we can conclude that the errors are normally distributed (clearly observed in q-q plot). Similarly, residual versus fitted model showed that the errors are not dependent on the crime variable. Moreover, we can see that few outliers (381, 406 and 410) have influences to the assumption that is clearly represented in case of residual vs leverage model and can be seen in other two plots as well. All the models have adressed the outliers nicely. Thus, assumptions in all models are more or less valid.
-
 
 
 #Conclusion  
