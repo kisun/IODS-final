@@ -27,55 +27,6 @@
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 
 
-<style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; background-color: #ffffff; color: #1f1c1b; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; background-color: #ffffff; color: #a0a0a0; border-right: 1px solid #a0a0a0; }
-td.sourceCode { padding-left: 5px; }
-pre, code { color: #1f1c1b; background-color: #ffffff; }
-code > span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
-code > span.dt { color: #0057ae; } /* DataType */
-code > span.dv { color: #b08000; } /* DecVal */
-code > span.bn { color: #b08000; } /* BaseN */
-code > span.fl { color: #b08000; } /* Float */
-code > span.cn { color: #aa5500; } /* Constant */
-code > span.ch { color: #924c9d; } /* Char */
-code > span.sc { color: #3daee9; } /* SpecialChar */
-code > span.st { color: #bf0303; } /* String */
-code > span.vs { color: #bf0303; } /* VerbatimString */
-code > span.ss { color: #ff5500; } /* SpecialString */
-code > span.im { color: #ff5500; } /* Import */
-code > span.co { color: #898887; } /* Comment */
-code > span.do { color: #607880; } /* Documentation */
-code > span.an { color: #ca60ca; } /* Annotation */
-code > span.cv { color: #0095ff; } /* CommentVar */
-code > span.ot { color: #006e28; } /* Other */
-code > span.fu { color: #644a9b; } /* Function */
-code > span.va { color: #0057ae; } /* Variable */
-code > span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #1f1c1b; } /* Operator */
-code > span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
-code > span.ex { color: #0095ff; font-weight: bold; } /* Extension */
-code > span.pp { color: #006e28; } /* Preprocessor */
-code > span.at { color: #0057ae; } /* Attribute */
-code > span.re { color: #0057ae; } /* RegionMarker */
-code > span.in { color: #b08000; } /* Information */
-code > span.wa { color: #bf0303; } /* Warning */
-code > span.al { color: #bf0303; font-weight: bold; } /* Alert */
-code > span.er { color: #bf0303; text-decoration: underline; } /* Error */
-code > span. { color: #1f1c1b; } /* Normal */
-div.sourceCode {
-  overflow-x: visible;
-}
-</style>
-<style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
 
 
 <style type="text/css">
@@ -466,9 +417,6 @@ Natural Resources Institute Finland (Luke)<br><a class="author_email" href="mail
 </tbody>
 </table>
 <p>First and foremost, it is important to get an overview of the data being analysed. As mentioned earlier, Boston data is available from <a href="https://cran.r-project.org/web/packages/MASS/index.html">MASS package</a> and thus can be directly imported into R for further analysis.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#load MASS package and read the Boston data</span>
-<span class="kw">library</span>(MASS)
-<span class="kw">data</span>(Boston)</code></pre></div>
 </div>
 <div id="data-exploration" class="section level1">
 <h1>Data Exploration</h1>
@@ -491,8 +439,6 @@ Natural Resources Institute Finland (Luke)<br><a class="author_email" href="mail
 <li>relationships between variables (correlation)</li>
 </ol>
 <p>Now, let’s first look at the summary of the boston data in the form of table (instead of default layout) using <em>pandoc.table</em> function of <strong>pander</strong> package.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(pander)
-<span class="kw">pandoc.table</span>(<span class="kw">summary</span>(Boston), <span class="dt">caption =</span> <span class="st">&quot;Summary of Boston data&quot;</span>, <span class="dt">split.table =</span> <span class="dv">100</span>)</code></pre></div>
 <pre><code>## 
 ## --------------------------------------------------------------------------------------
 ##        crim               zn             indus            chas              nox       
@@ -548,22 +494,6 @@ Natural Resources Institute Finland (Luke)<br><a class="author_email" href="mail
 ##  Max.  :396.90    Max.  :37.97    Max.  :50.00  
 ## ------------------------------------------------</code></pre>
 <p>After getting a statistical summary of, it’s worthwhile to see to what extent each variables are correlated. For that, we use <strong>corr()</strong> function on Boston data.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(corrplot)</code></pre></div>
-<pre><code>## corrplot 0.84 loaded</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)</code></pre></div>
-<pre><code>## 
-## Attaching package: &#39;dplyr&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:MASS&#39;:
-## 
-##     select</code></pre>
-<pre><code>## The following objects are masked from &#39;package:stats&#39;:
-## 
-##     filter, lag</code></pre>
-<pre><code>## The following objects are masked from &#39;package:base&#39;:
-## 
-##     intersect, setdiff, setequal, union</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">corr_boston&lt;-<span class="kw">cor</span>(Boston) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">round</span>(<span class="dv">2</span>)
-<span class="kw">pandoc.table</span>(corr_boston, <span class="dt">split.table =</span> <span class="dv">100</span>)</code></pre></div>
 <pre><code>## 
 ## ---------------------------------------------------------------------------------------------
 ##    &amp;nbsp;      crim     zn     indus   chas     nox     rm      age     dis     rad     tax  
@@ -638,22 +568,10 @@ Natural Resources Institute Finland (Luke)<br><a class="author_email" href="mail
 <p>The same information can be presented as a graphical overview. This time we will make a correlogram, a graphical representation of coorelation matrix. We will visualize the summary of the data using box plot and histogram. The <em>corrplot()</em> function of <strong>corrplot</strong> package wll be used to visualize the correlation between all the variables of the Boston dataset.</p>
 <div id="correlation-plot" class="section level3">
 <h3>Correlation plot</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">corrplot</span>(corr_boston, <span class="dt">method =</span> <span class="st">&quot;circle&quot;</span>, <span class="dt">tl.col =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">cl.pos=</span><span class="st">&quot;b&quot;</span>, <span class="dt">tl.pos =</span> <span class="st">&quot;d&quot;</span>, <span class="dt">type =</span> <span class="st">&quot;upper&quot;</span> , <span class="dt">tl.cex =</span> <span class="fl">0.9</span> )</code></pre></div>
 <p><img src="index_files/figure-html/unnamed-chunk-1-1.png" width="864" /></p>
 </div>
 <div id="correlation-matrix" class="section level3">
 <h3>Correlation matrix</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
-<span class="kw">library</span>(GGally)</code></pre></div>
-<pre><code>## 
-## Attaching package: &#39;GGally&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
-## 
-##     nasa</code></pre>
-<pre><code>## The following object is masked from &#39;package:pander&#39;:
-## 
-##     wrap</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggpairs</span>(Boston)</code></pre></div>
 <p><img src="index_files/figure-html/ggpairs-1.png" width="960" /></p>
 <p>The above graphs gives much quicker impression regarding the variables. In the correlation graph, for example, positive correlations are displayed in blue and negative correlations in red color with intensity of the color and circle size being proportional to the correlation coefficients. The same relationship as described above using correlation summary can be seen in the form of circles with different size (intensity of correlation i.e highly correlated or lowly correlated) and different colors (wheether positively or negatively correlated).</p>
 </div>
@@ -666,15 +584,7 @@ Natural Resources Institute Finland (Luke)<br><a class="author_email" href="mail
 <h3>Multiple Linear Regression</h3>
 <p>Multiple linear regression is commonly used method for most of the the regression analyses. As a predictive analysis method, multiple linear regression describes given data and explain the relationship between one dependent variable and two or more independent variables. Our research question for the multiple linear regression is as follows: Can we explain the crime rate in Boston area based on the four variables that were hypothesized earlier in this report?</p>
 <p>First, we need to check whether there is a linear relationship between the independent variables and the dependent variable in our multiple linear regression model. After that, we fit the model simply using <em>lm()</em> function and call output usig <em>summary()</em> function.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#let&#39;s first create subset of Boston data (my_Bos) using five variables kept in (my_var)</span>
-myvar&lt;-<span class="kw">c</span>(<span class="st">&quot;crim&quot;</span>, <span class="st">&quot;black&quot;</span>, <span class="st">&quot;medv&quot;</span>, <span class="st">&quot;dis&quot;</span>, <span class="st">&quot;rad&quot;</span>)
-my_Bos&lt;-<span class="kw">select</span>(Boston, <span class="kw">one_of</span>(myvar))
-<span class="kw">ggpairs</span>(my_Bos)</code></pre></div>
 <p><img src="index_files/figure-html/plot_myar-1.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#fit linear model</span>
-lm_crim&lt;-<span class="kw">lm</span>(crim<span class="op">~</span>. , <span class="dt">data=</span>my_Bos)
-<span class="co">#summarize the model</span>
-<span class="kw">summary</span>(lm_crim)</code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = crim ~ ., data = my_Bos)
@@ -705,17 +615,14 @@ lm_crim&lt;-<span class="kw">lm</span>(crim<span class="op">~</span>. , <span cl
 <h3>Model validation</h3>
 <div id="residual-vs-fitted" class="section level4">
 <h4>Residual vs Fitted</h4>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(lm_crim, <span class="dt">which =</span> <span class="dv">1</span>)</code></pre></div>
 <p><img src="index_files/figure-html/plot1-1.png" width="672" /></p>
 </div>
 <div id="normal-q-q" class="section level4">
 <h4>Normal Q-Q</h4>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(lm_crim, <span class="dt">which =</span> <span class="dv">2</span>)</code></pre></div>
 <p><img src="index_files/figure-html/plot2-1.png" width="672" /></p>
 </div>
 <div id="residual-vs-leverage" class="section level4">
 <h4>Residual vs Leverage</h4>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(lm_crim, <span class="dt">which =</span> <span class="dv">5</span>)</code></pre></div>
 <p><img src="index_files/figure-html/plot3-1.png" width="672" /></p>
 </div>
 </div>
@@ -729,7 +636,6 @@ lm_crim&lt;-<span class="kw">lm</span>(crim<span class="op">~</span>. , <span cl
 <p>To conclude, three of the four variables I selected by assuming that they predict crime rate in Boston were found to be valid. Moreover, it was found that the median values of owner occupied homes turned out to be the best predictor among other variables.</p>
 <div id="session-information" class="section level2">
 <h2>Session information:</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre></div>
 <pre><code>## R version 3.4.2 (2017-09-28)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
 ## Running under: Ubuntu 17.10
