@@ -75,7 +75,7 @@ Here, the main goal of the analysis is to study how crime rate is associated wit
 
 **2. Value of owner-occupied homes (medv)** : Usually, the crime-related activities are common with individuals who do not have enough property. They say that one of the main reasons for crime is poverty. Individual with basic income may also have homes with lower value but I think we can also correlate the value of house one has with crime-rate. In other words, value of owner-occupied home should be negatively correlated with crime.
 
-**3. Distance to employment centers in Boston (dis)** : I hypothesize that the farther the residential area from employment centers, the higher the crime rates. 
+**3. Distance to employment centers in Boston (dis)** : I hypothesize that the farther the residential area from employment centers, the lower the crime rates. 
 
 **4. Proportion of blacks(black)** : There have been an impression that blacks commit more crime compared to whites. Therefore, I hypothesize that proportion of blacks is positively correlated with crime rate.
 
@@ -139,12 +139,18 @@ First, we need to check whether there is a linear relationship between the indep
 myvar<-c("crim", "black", "medv", "dis", "rad")
 my_Bos<-select(Boston, one_of(myvar))
 ggpairs(my_Bos)
+```
+
+Here, the *crime* variable is positively correlated with *rad* (0.626) and negatively correlated with *black* (-0.385), *medv* (-0.388) and *dis*.(-0.38)
+
+
+```{r, model}
 #fit linear model
 lm_crim<-lm(crim~. , data=my_Bos)
 #summarize the model
 summary(lm_crim)
 ```
-From the output, residuals represent the difference between the actual values i.e the crime rate in Boston and each of the four dependent variables. The next section shows the coefficients of the model. From the output, we saw that the intercept is 6.529163 with coefficients for dependant variables being -0.009053(black), -0.141722(medv), -0.292778(dis) and 0.483580(rad). Next, we can also see Standard errors for the coefficients which measure the average amount that the coefficient estimates differ from the dependent variables. Moreover, the t-value measures how far the coefficient estimation is away from zero with the assumption that the farther the better. In other words, we reject the null hypothesis when it's far from zero. 
+From the output, residuals represent the difference between the actual values i.e the crime rate (dependent variable) in Boston and each of the four explanatory variables. The next section shows the coefficients of the model. From the output, we saw that the intercept is 6.529163 with coefficients for dependant variables being -0.009053(black), -0.141722(medv), -0.292778(dis) and 0.483580(rad). Next, we can also see Standard errors for the coefficients which measure the average amount that the coefficient estimates differ from the dependent variables. Moreover, the t-value measures how far the coefficient estimation is away from zero with the assumption that the farther the better. In other words, we reject the null hypothesis when it's far from zero. 
 
 In the above model, the t-values are farthest in *rad* followed by *medv*, *black* and *dis*. These values are also larger compared to standard error except *dis*, which indiciate that these variables do have some relationship with the *crime*. The last column indicates the probability for getting any value >= *t*. In general, a p-value of 0.05 is good cut-off for significance. Thus, we can see that three (*black*, *medv* and *rad*) out of four choosen variables were significant.   
 
