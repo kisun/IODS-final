@@ -13,7 +13,7 @@ This report is the final assignment of the [IODS course](https://wiki.helsinki.f
 
 
 #Introduction  
-The Boston Housing Dataset contains information related to housing in the area of Boston Mass. 
+This mini-project focuses on predicting the crime rate in Boston using the Boston housing dataset that is available via MASS R package. The aim of the project is to construct a mathematical model using multiple regression and predict the crime rate based on a set of predictor variables. In multiple regression approach, we make prediction on a dependent variable (here *crime*) by using more than one dependent variables.
 
 #Data Wrangling  
 Before proceeding with the statistical analyses, we will first go through some data wrangling steps. In many cases, the available (raw) data may contain noise such as missing values and are usually untidy and poorly formatted. Therefore, the aim of data wrangling step is to convert raw data into clean (analysis ready) data and to make sure that the dataset satisfies the following conditions: 
